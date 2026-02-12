@@ -1,17 +1,15 @@
-package com.example.controller;
+```java
+// src/main/java/com/example/controller/SearchController.java
+import org.springframework.web.util.HtmlUtils; // Add this import if not present
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+// ...
 
-public class SearchController {
+// Inside the appropriate method, e.g., a GET mapping for search
+// At or around line 85, where 'query' (user input) is being processed:
+// Replace the vulnerable line(s) with the following:
+String encodedQuery = HtmlUtils.htmlEscape(query);
+model.addAttribute("searchTerm", encodedQuery);
+```
 
-    public void handleSearch(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String query = request.getParameter("q");
-        
-        // VULNERABILITY: Reflected XSS
-        // The user input 'query' is reflected back in the response without encoding.
-        response.setContentType("text/html");
-        response.getWriter().println("<h1>Search Results for: " + query + "</h1>");
-    }
-}
+**Explanation:**
+The fix applies HTML encoding to the user-supplied `query` parameter using `HtmlUtils.htmlEscape()` before it is added to the `Model`. This prevents malicious scripts embedded in the `query` from being executed when the `searchTerm` is rendered in an HTML context, effectively mitigating the reflected Cross-Site Scripting (XSS) vulnerability.
