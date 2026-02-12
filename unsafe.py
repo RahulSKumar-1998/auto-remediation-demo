@@ -18,3 +18,5 @@ def exec_cmd():
     cmd = flask.request.args.get('cmd')
     os.popen(cmd)
     return "Executed"
+
+# GHAS Trigger: 1770887090
