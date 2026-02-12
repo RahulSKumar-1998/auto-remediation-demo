@@ -1,4 +1,6 @@
 package com.example.auth;
+import com.example.util.Database;
+
 
 import java.sql.Connection;
 import java.sql.ResultSet;
