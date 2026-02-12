@@ -33,10 +33,11 @@ jobs:
       with:
         languages: ${{ matrix.language }}
 
-    # Autobuild attempts to build any compiled languages  (C/C++, C#, Go, or Java).
-    # If this step fails, then you should remove it and run the build manually (see below)
-    - name: Autobuild
-      uses: github/codeql-action/autobuild@v2
+    # Manual Build for Java (Robustness)
+    - name: Manual Build (Java)
+      if: matrix.language == 'java'
+      run: |
+        mvn clean package -f pom.xml -DskipTests
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
